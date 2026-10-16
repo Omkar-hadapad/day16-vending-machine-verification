@@ -1,0 +1,220 @@
+ncsim> 
+ncsim> database -open waves -into waves.shm -default
+Created default SHM database waves
+ncsim> probe -create -shm day16_tb.clk day16_tb.coin_5 day16_tb.coin_10 day16_tb\
+.dff_D day16_tb.dff_Q day16_tb.eqA day16_tb.eqB day16_tb.equal day16_tb.fail_cou\
+nt day16_tb.gA day16_tb.gB day16_tb.g_and day16_tb.g_nand day16_tb.g_nor day16_t\
+b.g_not day16_tb.g_or day16_tb.g_xor day16_tb.ns_coin5 day16_tb.ns_coin10 day16_\
+tb.ns_next_state day16_tb.ns_state day16_tb.out_change day16_tb.out_coin5 day16_\
+tb.out_coin10 day16_tb.out_dispense day16_tb.out_state day16_tb.pass_count day16\
+_tb.r_change day16_tb.r_dispense day16_tb.reset day16_tb.s_change day16_tb.s_dis\
+pense day16_tb.s_next_state day16_tb.s_state day16_tb.sr_next_state day16_tb.sr_\
+state
+Created probe 1
+ncsim> run
+
+==============================================
+TEST 1 - BASIC GATES
+==============================================
+TIME=0 | RESET=1 | C5=0 | C10=0 | STATE=xx | NEXT=00 | DISPENSE=0 | CHANGE=0
+PASS :           NOT 00 | Expected=1 Actual=1
+PASS :           AND 00 | Expected=0 Actual=0
+PASS :            OR 00 | Expected=0 Actual=0
+PASS :           XOR 00 | Expected=0 Actual=0
+PASS :          NAND 00 | Expected=1 Actual=1
+PASS :           NOR 00 | Expected=1 Actual=1
+PASS :           NOT 01 | Expected=1 Actual=1
+PASS :           AND 01 | Expected=0 Actual=0
+PASS :            OR 01 | Expected=1 Actual=1
+PASS :           XOR 01 | Expected=1 Actual=1
+PASS :          NAND 01 | Expected=1 Actual=1
+PASS :           NOR 01 | Expected=0 Actual=0
+PASS :           NOT 10 | Expected=0 Actual=0
+PASS :           AND 10 | Expected=0 Actual=0
+PASS :            OR 10 | Expected=1 Actual=1
+PASS :           XOR 10 | Expected=1 Actual=1
+PASS :          NAND 10 | Expected=1 Actual=1
+PASS :           NOR 10 | Expected=0 Actual=0
+PASS :           NOT 11 | Expected=0 Actual=0
+PASS :           AND 11 | Expected=1 Actual=1
+PASS :            OR 11 | Expected=1 Actual=1
+PASS :           XOR 11 | Expected=0 Actual=0
+PASS :          NAND 11 | Expected=0 Actual=0
+PASS :           NOR 11 | Expected=0 Actual=0
+
+==============================================
+TEST 2 - EQUALITY COMPARATOR
+==============================================
+TIME=5000 | RESET=1 | C5=0 | C10=0 | STATE=00 | NEXT=00 | DISPENSE=0 | CHANGE=0
+PASS :         EQ 00=00 | Expected=1 Actual=1
+PASS :         EQ 01=01 | Expected=1 Actual=1
+PASS :         EQ 10=10 | Expected=1 Actual=1
+PASS :         EQ 11=11 | Expected=1 Actual=1
+PASS :        EQ 00!=01 | Expected=0 Actual=0
+PASS :        EQ 10!=11 | Expected=0 Actual=0
+
+==============================================
+TEST 3 - D FLIP-FLOP
+==============================================
+PASS :        DFF RESET | Expected=0 Actual=0
+TIME=16000 | RESET=0 | C5=0 | C10=0 | STATE=00 | NEXT=00 | DISPENSE=0 | CHANGE=0
+PASS :       DFF LOAD 1 | Expected=1 Actual=1
+PASS :       DFF LOAD 0 | Expected=0 Actual=0
+
+==============================================
+TEST 4 - STATE REGISTER
+==============================================
+TIME=36000 | RESET=1 | C5=0 | C10=0 | STATE=00 | NEXT=00 | DISPENSE=0 | CHANGE=0
+PASS :      STATE RESET | Expected=00 Actual=00
+TIME=46000 | RESET=0 | C5=0 | C10=0 | STATE=00 | NEXT=00 | DISPENSE=0 | CHANGE=0
+PASS :    STATE LOAD S5 | Expected=01 Actual=01
+PASS :   STATE LOAD S10 | Expected=10 Actual=10
+
+==============================================
+TEST 5 - NEXT-STATE LOGIC
+==============================================
+PASS :     S0 + NO COIN | Expected=00 Actual=00
+PASS :        S0 + ÿÿ¹5 | Expected=01 Actual=01
+PASS :       S0ÿÿÿâÿ¹10 | Expected=10 Actual=10
+PASS :     S5 + NO COIN | Expected=01 Actual=01
+PASS :        S5 + ÿÿ¹5 | Expected=10 Actual=10
+PASS :       S5ÿÿÿâÿ¹10 | Expected=00 Actual=00
+PASS :    S10 + NO COIN | Expected=10 Actual=10
+PASS :       S10 + ÿÿ¹5 | Expected=00 Actual=00
+PASS :      S10ÿÿÿâÿ¹10 | Expected=00 Actual=00
+PASS : NVALID TWO COINS | Expected=00 Actual=00
+PASS :    INVALID STATE | Expected=00 Actual=00
+
+==============================================
+TEST 6 - OUTPUT DECODER
+==============================================
+PASS :      S0 DISPENSE | Expected=0 Actual=0
+PASS :        S0 CHANGE | Expected=0 Actual=0
+PASS : ÿÿÿâÿ¹5 DISPENSE | Expected=0 Actual=0
+PASS :   S5ÿÿÿ¹5 CHANGE | Expected=0 Actual=0
+PASS : ÿÿÿ¹10 DISPENSE | Expected=1 Actual=1
+PASS :  S5+ÿÿ¹10 CHANGE | Expected=0 Actual=0
+PASS : ÿÿÿâÿ¹5 DISPENSE | Expected=1 Actual=1
+PASS :  S10ÿÿÿ¹5 CHANGE | Expected=0 Actual=0
+PASS : ÿÿÿ¹10 DISPENSE | Expected=1 Actual=1
+PASS : S10+ÿÿ¹10 CHANGE | Expected=1 Actual=1
+PASS : INVALID DISPENSE | Expected=0 Actual=0
+PASS :   INVALID CHANGE | Expected=0 Actual=0
+
+==============================================
+TEST 7 - MACHINE RESET
+==============================================
+TIME=83000 | RESET=1 | C5=0 | C10=0 | STATE=00 | NEXT=00 | DISPENSE=0 | CHANGE=0
+PASS : HINE RESET STATE | Expected=00 Actual=00
+PASS :   RESET DISPENSE | Expected=0 Actual=0
+PASS :     RESET CHANGE | Expected=0 Actual=0
+
+==============================================
+TEST 8 - ₹5 + ₹5 + ₹5
+==============================================
+TIME=96000 | RESET=0 | C5=1 | C10=0 | STATE=00 | NEXT=01 | DISPENSE=0 | CHANGE=0
+PASS : ÿÿÿâÿ¹5 DISPENSE | Expected=0 Actual=0
+PASS : IRSTÿÿÿ¹5 CHANGE | Expected=0 Actual=0
+TIME=105000 | RESET=0 | C5=1 | C10=0 | STATE=01 | NEXT=10 | DISPENSE=0 | CHANGE=0
+PASS :       ÿ¹5 STATE | Expected=01 Actual=01
+PASS : ÿÿÿâÿ¹5 DISPENSE | Expected=0 Actual=0
+PASS : CONDÿÿÿ¹5 CHANGE | Expected=0 Actual=0
+TIME=115000 | RESET=0 | C5=1 | C10=0 | STATE=10 | NEXT=00 | DISPENSE=1 | CHANGE=0
+PASS :      ÿÿ¹10 STATE | Expected=10 Actual=10
+PASS :   ÿ¹15 DISPENSE | Expected=1 Actual=1
+PASS :     ÿÿ¹15 CHANGE | Expected=0 Actual=0
+TIME=125000 | RESET=0 | C5=1 | C10=0 | STATE=00 | NEXT=01 | DISPENSE=0 | CHANGE=0
+PASS : FTERÿÿÿ¹15 STATE | Expected=00 Actual=00
+TIME=126000 | RESET=0 | C5=0 | C10=0 | STATE=00 | NEXT=00 | DISPENSE=0 | CHANGE=0
+PASS : ÿÿÿ¹15 DISPENSE | Expected=0 Actual=0
+PASS : TER ÿÿ¹15 CHANGE | Expected=0 Actual=0
+
+==============================================
+TEST 9 - ₹10 + ₹5
+==============================================
+TIME=127000 | RESET=1 | C5=0 | C10=0 | STATE=00 | NEXT=00 | DISPENSE=0 | CHANGE=0
+TIME=136000 | RESET=0 | C5=0 | C10=1 | STATE=00 | NEXT=10 | DISPENSE=0 | CHANGE=0
+TIME=145000 | RESET=0 | C5=0 | C10=1 | STATE=10 | NEXT=00 | DISPENSE=1 | CHANGE=1
+PASS :      ÿÿ¹10 STATE | Expected=10 Actual=10
+TIME=146000 | RESET=0 | C5=1 | C10=0 | STATE=10 | NEXT=00 | DISPENSE=1 | CHANGE=0
+PASS : ÿÿÿâÿ¹5 DISPENSE | Expected=1 Actual=1
+PASS : ÿ¹10ÿÿÿ¹5 CHANGE | Expected=0 Actual=0
+TIME=155000 | RESET=0 | C5=1 | C10=0 | STATE=00 | NEXT=01 | DISPENSE=0 | CHANGE=0
+PASS : R DISPENSE STATE | Expected=00 Actual=00
+
+==============================================
+TEST 10 - ₹10 + ₹10
+==============================================
+TIME=156000 | RESET=1 | C5=0 | C10=0 | STATE=00 | NEXT=00 | DISPENSE=0 | CHANGE=0
+TIME=166000 | RESET=0 | C5=0 | C10=1 | STATE=00 | NEXT=10 | DISPENSE=0 | CHANGE=0
+TIME=175000 | RESET=0 | C5=0 | C10=1 | STATE=10 | NEXT=00 | DISPENSE=1 | CHANGE=1
+PASS : IRSTÿÿÿ¹10 STATE | Expected=10 Actual=10
+PASS :   ÿ¹20 DISPENSE | Expected=1 Actual=1
+PASS :     ÿÿ¹20 CHANGE | Expected=1 Actual=1
+TIME=185000 | RESET=0 | C5=0 | C10=1 | STATE=00 | NEXT=10 | DISPENSE=0 | CHANGE=0
+PASS : ÿ¹20 AFTER STATE | Expected=00 Actual=00
+
+==============================================
+TEST 11 - INVALID TWO COINS
+==============================================
+TIME=186000 | RESET=1 | C5=0 | C10=0 | STATE=00 | NEXT=00 | DISPENSE=0 | CHANGE=0
+TIME=196000 | RESET=0 | C5=1 | C10=1 | STATE=00 | NEXT=00 | DISPENSE=0 | CHANGE=0
+PASS : D INPUT DISPENSE | Expected=0 Actual=0
+PASS : LID INPUT CHANGE | Expected=0 Actual=0
+
+==============================================
+TEST 12 - STRUCTURAL VS RTL
+==============================================
+TIME=197000 | RESET=1 | C5=0 | C10=0 | STATE=00 | NEXT=00 | DISPENSE=0 | CHANGE=0
+PASS : L DISPENSE RESET | Expected=0 Actual=0
+PASS : RTL CHANGE RESET | Expected=0 Actual=0
+TIME=206000 | RESET=0 | C5=1 | C10=0 | STATE=00 | NEXT=01 | DISPENSE=0 | CHANGE=0
+TIME=215000 | RESET=0 | C5=1 | C10=0 | STATE=01 | NEXT=10 | DISPENSE=0 | CHANGE=0
+PASS : TL DISPENSE ÿÿ¹5 | Expected=0 Actual=0
+PASS : /RTL CHANGE ÿÿ¹5 | Expected=0 Actual=0
+TIME=225000 | RESET=0 | C5=1 | C10=0 | STATE=10 | NEXT=00 | DISPENSE=1 | CHANGE=0
+PASS : L DISPENÿÿÿâÿ¹10 | Expected=1 Actual=1
+PASS : RTL CHANÿÿÿâÿ¹10 | Expected=0 Actual=0
+TIME=226000 | RESET=0 | C5=0 | C10=1 | STATE=10 | NEXT=00 | DISPENSE=1 | CHANGE=1
+PASS : L DISPENÿÿÿâÿ¹20 | Expected=1 Actual=1
+PASS : RTL CHANÿÿÿâÿ¹20 | Expected=1 Actual=1
+
+==============================================
+TEST 13 - SAFETY CHECK
+==============================================
+TIME=227000 | RESET=1 | C5=0 | C10=0 | STATE=10 | NEXT=10 | DISPENSE=0 | CHANGE=0
+TIME=235000 | RESET=1 | C5=0 | C10=0 | STATE=00 | NEXT=00 | DISPENSE=0 | CHANGE=0
+TIME=236000 | RESET=0 | C5=0 | C10=0 | STATE=00 | NEXT=00 | DISPENSE=0 | CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+PASS : OUTPUT VALID | DISPENSE=0 CHANGE=0
+
+================================================
+DAY 16 - VENDING MACHINE VERIFICATION SUMMARY
+================================================
+PASS COUNT = 111
+FAIL COUNT = 0
+
+PROJECT STATUS = PASS
+ALL VERIFIED TESTS PASSED
+================================================
+Simulation complete via $finish(1) at time 445 NS + 0
+./day16_tb.v:1043         $finish;
+ncsim> 
