@@ -9,10 +9,10 @@
 </p>
 
 <p align="center">
-  <img alt="Project" src="https://img.shields.io/badge/Project-Day%2017-blue">
+  <img alt="Project" src="https://img.shields.io/badge/Project-Day%2016-blue">
   <img alt="HDL" src="https://img.shields.io/badge/HDL-Verilog-8A2BE2">
   <img alt="Synthesis" src="https://img.shields.io/badge/Synthesis-Cadence%20Genus-orange">
-  <img alt="Verification" src="https://img.shields.io/badge/Verification-390%20Pass%20%7C%200%20Fail-success">
+  <img alt="Verification" src="https://img.shields.io/badge/Verification-111%20Pass%20%7C%200%20Fail-success">
 </p>
 
 ---
